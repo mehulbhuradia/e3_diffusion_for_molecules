@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH --partition=insy
+#SBATCH --partition=general
 #SBATCH --job-name=Enzymix
 #SBATCH --qos=long         
 #SBATCH --time=168:00:00      
