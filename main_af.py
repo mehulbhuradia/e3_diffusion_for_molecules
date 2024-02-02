@@ -118,7 +118,7 @@ parser.add_argument('--diffusion_loss_type', type=str, default='l2',
 parser.add_argument('--diffusion_noise_precision', type=float, default=1e-5)
 
 parser.add_argument('--n_epochs', type=int, default=10000)
-parser.add_argument('--batch_size', type=int, default=64)
+parser.add_argument('--batch_size', type=int, default=2)
 parser.add_argument('--lr', type=float, default=5e-5)
 
 parser.add_argument('--dp', type=eval, default=True,
@@ -245,7 +245,7 @@ train_dataset, test_dataset, val_dataset = split_datasets(device)
 dataloaders = {}
 
 dataloaders['train'] = AFDataLoader(dataset=train_dataset, batch_size=args.batch_size)
-dataloaders['val'] = AFDataLoader(dataset=val_dataset, batch_size=args.batch_size)
+dataloaders['valid'] = AFDataLoader(dataset=val_dataset, batch_size=args.batch_size)
 dataloaders['test'] = AFDataLoader(dataset=test_dataset, batch_size=args.batch_size)
 
 context_node_nf = 0
