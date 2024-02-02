@@ -24,7 +24,7 @@ def get_model(args, device, dataset_info, dataloader_train):
 
     net_dynamics = EGNN_dynamics_QM9(
         in_node_nf=dynamics_in_node_nf, context_node_nf=args.context_node_nf,
-        n_dims=3, device=device, hidden_nf=args.nf,
+        n_dims=9, device=device, hidden_nf=args.nf,
         act_fn=torch.nn.SiLU(), n_layers=args.n_layers,
         attention=args.attention, tanh=args.tanh, mode=args.model, norm_constant=args.norm_constant,
         inv_sublayers=args.inv_sublayers, sin_embedding=args.sin_embedding,
@@ -34,7 +34,7 @@ def get_model(args, device, dataset_info, dataloader_train):
         vdm = EnVariationalDiffusion(
             dynamics=net_dynamics,
             in_node_nf=in_node_nf,
-            n_dims=3,
+            n_dims=9,
             timesteps=args.diffusion_steps,
             noise_schedule=args.diffusion_noise_schedule,
             noise_precision=args.diffusion_noise_precision,

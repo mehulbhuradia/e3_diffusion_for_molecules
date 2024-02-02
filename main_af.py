@@ -93,13 +93,12 @@ dataset_info = af_300
 from os.path import join
 from qm9.models import get_optim, get_model
 from equivariant_diffusion import en_diffusion
-from equivariant_diffusion.utils import assert_correctly_masked
 from equivariant_diffusion import utils as flow_utils
 import torch
 import time
 import pickle
-from qm9.utils import prepare_context, compute_mean_mad
-from train_test_af import train_epoch, test, analyze_and_save
+
+from train_test_af import train_epoch, test
 from build_af_dataset import AFDataLoader
 
 parser = argparse.ArgumentParser(description='e3_diffusion')
@@ -241,7 +240,7 @@ args.cuda = not args.no_cuda and torch.cuda.is_available()
 device = torch.device("cuda" if args.cuda else "cpu")
 dtype = torch.float32
 
-train_dataset, test_dataset, val_dataset = split_datasets()    
+train_dataset, test_dataset, val_dataset = split_datasets(device)    
 
 dataloaders = {}
 

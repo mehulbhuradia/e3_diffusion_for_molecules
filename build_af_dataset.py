@@ -21,7 +21,7 @@ def train_test_val_split(array, train_ratio=0.8, test_ratio=0.1, val_ratio=0.1):
 
     return train_list, test_list, val_list
 
-def split_datasets(path='./processed_big_atoms',max_len=300):
+def split_datasets(device,path='./processed_big_atoms',max_len=300):
     paths = []
     for pdb in os.listdir(path):
         length=pdb.split('_')[2].split('.')[0]
@@ -29,19 +29,17 @@ def split_datasets(path='./processed_big_atoms',max_len=300):
             paths.append(path+"/" + pdb)
     train_list, test_list, val_list = train_test_val_split(paths)
 
-    train_dataset = AFDataset(train_list)
-    test_dataset = AFDataset(test_list)
-    val_dataset = AFDataset(val_list)
+    train_dataset = AFDataset(train_list,device)
+    test_dataset = AFDataset(test_list,device)
+    val_dataset = AFDataset(val_list,device)
 
     return train_dataset, test_dataset, val_dataset
-
-    
-        
-    
+   
 
 
 class AFDataset(Dataset):
-  def __init__(self, paths):
+  def __init__(self, paths, device):
+    self.device = device
     self.paths = paths
     self.lengths = []
     for pdb in paths:
@@ -62,10 +60,18 @@ class AFDataset(Dataset):
       data = json.load(file)
     coords=torch.Tensor(data['coords'])
     one_hot=torch.Tensor(data['one_hot'])
-    edges=[]
-    for e in data['edges']:
-      edges.append(torch.tensor(e, dtype=torch.int64))
-    return coords, one_hot, 0, edges, file_path
+    
+    new_data = {}
+    new_data['positions'] = coords.to(self.device)
+    new_data['one_hot'] = one_hot.to(self.device)
+    n = coords.shape[0]
+    new_data['atom_mask'] = torch.ones(n, device=self.device)
+
+    edge_mask = torch.ones((n, n), device=self.device)
+    edge_mask[~torch.eye(edge_mask.shape[0], dtype=torch.bool)] = 0
+    new_data['edge_mask'] = edge_mask.flatten()
+    
+    return new_data
 
 class CustomBatchSampler(BatchSampler):
     """ Creates batches where all sets have the same size. """

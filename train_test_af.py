@@ -19,8 +19,6 @@ def train_epoch(args, loader, epoch, model, model_dp, model_ema, ema, device, dt
     nll_epoch = []
     n_iterations = len(loader)
     for i, data in enumerate(loader):
-        if data['positions'].shape[0] < 64:
-            print("Hello",data['positions'].shape)
         x = data['positions'].to(device, dtype)
         node_mask = data['atom_mask'].to(device, dtype).unsqueeze(2)
         edge_mask = data['edge_mask'].to(device, dtype)
@@ -43,11 +41,7 @@ def train_epoch(args, loader, epoch, model, model_dp, model_ema, ema, device, dt
 
         h = {'categorical': one_hot, 'integer': charges}
 
-        if len(args.conditioning) > 0:
-            context = qm9utils.prepare_context(args.conditioning, data, property_norms).to(device, dtype)
-            assert_correctly_masked(context, node_mask)
-        else:
-            context = None
+        context = None
 
         optim.zero_grad()
 
@@ -91,8 +85,6 @@ def train_epoch(args, loader, epoch, model, model_dp, model_ema, ema, device, dt
                 vis.visualize_chain("outputs/%s/epoch_%d/conditional/" % (args.exp_name, epoch), dataset_info,
                                     wandb=wandb, mode='conditional')
         wandb.log({"Batch NLL": nll.item()}, commit=True)
-        if args.break_train_epoch:
-            break
     wandb.log({"Train Epoch NLL": np.mean(nll_epoch)}, commit=False)
 
 
