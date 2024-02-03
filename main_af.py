@@ -88,6 +88,15 @@ af_600 = {
                 590: 11, 591: 13, 592: 8, 593: 10, 594: 13, 595: 15, 596: 9, 597: 10, 598: 19, 599: 12},
     }
 
+af_50={
+    'name': 'af_50',
+    'atom_encoder': {'A':0, 'C':1, 'D':2, 'E':3, 'F':4, 'G':5, 'H':6, 'I':7, 'K':8, 'L':9, 'M':10, 'N':11,
+                     'P':12, 'Q':13, 'R':14, 'S':15, 'T':16, 'V':17, 'W':18, 'Y':19},
+    'atom_decoder': ["A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y"],
+    'max_n_nodes': 50,
+    'n_nodes': {16: 1, 17: 1, 18: 1, 20: 3, 23: 1, 26: 2, 34: 1, 37: 1, 38: 1, 44: 1, 45: 1, 47: 1},
+    }
+
 dataset_info = af_300
 
 from os.path import join
@@ -240,7 +249,7 @@ args.cuda = not args.no_cuda and torch.cuda.is_available()
 device = torch.device("cuda" if args.cuda else "cpu")
 dtype = torch.float32
 
-train_dataset, test_dataset, val_dataset = split_datasets(device)    
+train_dataset, test_dataset, val_dataset = split_datasets(device,max_len=dataset_info['max_n_nodes'])    
 
 dataloaders = {}
 
