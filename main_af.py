@@ -119,7 +119,7 @@ parser.add_argument('--probabilistic_model', type=str, default='diffusion',
                     help='diffusion')
 
 # Training complexity is O(1) (unaffected), but sampling complexity O(steps).
-parser.add_argument('--diffusion_steps', type=int, default=500)
+parser.add_argument('--diffusion_steps', type=int, default=1000)
 parser.add_argument('--diffusion_noise_schedule', type=str, default='polynomial_2',
                     help='learned, cosine')
 parser.add_argument('--diffusion_loss_type', type=str, default='l2',
@@ -127,8 +127,8 @@ parser.add_argument('--diffusion_loss_type', type=str, default='l2',
 parser.add_argument('--diffusion_noise_precision', type=float, default=1e-5)
 
 parser.add_argument('--n_epochs', type=int, default=10000)
-parser.add_argument('--batch_size', type=int, default=2)
-parser.add_argument('--lr', type=float, default=5e-5)
+parser.add_argument('--batch_size', type=int, default=8)
+parser.add_argument('--lr', type=float, default=1e-4)
 
 parser.add_argument('--dp', type=eval, default=True,
                     help='True | False')
@@ -139,11 +139,11 @@ parser.add_argument('--clip_grad', type=eval, default=True,
 parser.add_argument('--trace', type=str, default='hutch',
                     help='hutch | exact')
 # EGNN args -->
-parser.add_argument('--n_layers', type=int, default=6,
+parser.add_argument('--n_layers', type=int, default=4,
                     help='number of layers')
 parser.add_argument('--inv_sublayers', type=int, default=1,
                     help='number of layers')
-parser.add_argument('--nf', type=int, default=192,
+parser.add_argument('--nf', type=int, default=256,
                     help='number of layers')
 parser.add_argument('--tanh', type=eval, default=True,
                     help='use tanh in the coord_mlp')
@@ -190,7 +190,7 @@ parser.add_argument('--remove_h', action='store_true')
 parser.add_argument('--include_charges', type=eval, default=False, help='include atom charge or not')
 parser.add_argument('--visualize_every_batch', type=int, default=5000)
 parser.add_argument('--normalization_factor', type=float,
-                    default=100, help="Normalize the sum aggregation of EGNN")
+                    default=1, help="Normalize the sum aggregation of EGNN")
 parser.add_argument('--aggregation_method', type=str, default='sum',
                     help='"sum" or "mean" aggregation for the graph network')
 args = parser.parse_args()
