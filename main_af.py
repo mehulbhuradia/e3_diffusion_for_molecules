@@ -97,7 +97,7 @@ af_50={
     'n_nodes': {16: 1, 17: 1, 18: 1, 20: 3, 23: 1, 26: 2, 34: 1, 37: 1, 38: 1, 44: 1, 45: 1, 47: 1},
     }
 
-dataset_info = af_600
+dataset_info = af_300
 
 from os.path import join
 from qm9.models import get_optim, get_model
