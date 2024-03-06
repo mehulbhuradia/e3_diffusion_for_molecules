@@ -1,11 +1,11 @@
 #!/bin/sh
 #SBATCH --partition=general
 #SBATCH --job-name=Enzymix
-#SBATCH --qos=long         
-#SBATCH --time=168:00:00      
+#SBATCH --qos=short         
+#SBATCH --time=4:00:00      
 #SBATCH --ntasks=1         
 #SBATCH --cpus-per-task=2   
-#SBATCH --mem-per-cpu=64G
+#SBATCH --mem-per-cpu=256G
 #SBATCH --mail-type=END     
 #SBATCH --gres=gpu:a40
 
