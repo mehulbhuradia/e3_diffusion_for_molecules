@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --partition=general
-#SBATCH --job-name=Enzymix
+#SBATCH --job-name=e3
 #SBATCH --qos=short         
 #SBATCH --time=4:00:00      
 #SBATCH --ntasks=1         
