@@ -68,6 +68,7 @@ def train_epoch(args, loader, epoch, model, model_dp, model_ema, ema, device, dt
                   f"GradNorm: {grad_norm:.1f}")
         nll_epoch.append(nll.item())
         wandb.log({"Batch NLL": nll.item()}, commit=True)
+        torch.cuda.empty_cache()
     wandb.log({"Train Epoch NLL": np.mean(nll_epoch)}, commit=False)
 
 
